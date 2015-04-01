@@ -10,7 +10,7 @@
 |circleci_status|
 
 .. |circleci_status| image:: https://circleci.com/gh/STEllAR-GROUP/docker_build_env/tree/master.svg?style=svg
-     :target: https://travis-ci.org/STEllAR-GROUP/hpx
+     :target: https://circleci.com/gh/STEllAR-GROUP/docker_build_env
      :alt: HPX Build Environment master branch build status
 
 This repository automatically builds and tests a docker image that is suitable
