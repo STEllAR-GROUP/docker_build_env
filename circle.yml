@@ -1,0 +1,31 @@
+# Copyright (c) 2015 Martin Stumpf
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+machine:
+    services:
+        - docker
+    environment:
+        IMAGE_NAME: stellargroup/build_env:debian_clang
+        IMAGE_FOLDER_NAME: debian_clang
+
+dependencies:
+    override:
+        - docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
+    post:
+        - git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
+
+test:
+    override:
+        - docker run ${IMAGE_NAME} printenv 
+        - docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build 
+        - docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_MALLOC=system
+        - docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} make -j2 core
+
+deployment:
+    hub:
+        branch: master
+        commands:
+            - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            - docker push ${IMAGE_NAME}
