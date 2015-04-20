@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y            \
                     libboost-regex-dev              \
                     libboost-serialization-dev      \
                     libboost-system-dev             \
-                    libboost-thread-dev
+                    libboost-thread-dev             \
+                    pkg-config
 
 ENV CC clang
 ENV CXX clang++
