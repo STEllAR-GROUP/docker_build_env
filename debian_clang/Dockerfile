@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y            \
                     libboost-filesystem-dev         \
                     libboost-program-options-dev    \
                     libboost-regex-dev              \
-                    libboost-serialization-dev      \
                     libboost-system-dev             \
                     libboost-thread-dev             \
                     pkg-config
