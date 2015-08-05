@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y            \
                     clang                           \
                     libhwloc-dev                    \
                     cmake                           \
+                    libboost-atomic-dev             \
                     libboost-chrono-dev             \
                     libboost-date-time-dev          \
                     libboost-filesystem-dev         \
