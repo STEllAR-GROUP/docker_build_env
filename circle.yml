@@ -7,8 +7,8 @@ machine:
     services:
         - docker
     environment:
-        IMAGE_NAME: stellargroup/build_env:debian_clang
-        IMAGE_FOLDER_NAME: debian_clang
+        IMAGE_NAME: stellargroup/build_env:ubuntu_clang
+        IMAGE_FOLDER_NAME: ubuntu_clang
 
 dependencies:
     override:
@@ -18,6 +18,7 @@ dependencies:
 
 test:
     override:
+        - docker --version
         - docker run ${IMAGE_NAME} printenv 
         - docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build 
         - docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
