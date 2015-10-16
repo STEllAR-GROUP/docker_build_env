@@ -7,8 +7,8 @@ machine:
     services:
         - docker
     environment:
-        IMAGE_NAME: stellargroup/build_env:ubuntu_clang
-        IMAGE_FOLDER_NAME: ubuntu_clang
+        IMAGE_NAME: stellargroup/build_env:debian_clang
+        IMAGE_FOLDER_NAME: debian_clang
 
 dependencies:
     override:
