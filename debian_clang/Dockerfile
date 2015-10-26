@@ -10,7 +10,7 @@ RUN sed -i 's/$/ contrib non-free/' /etc/apt/sources.list
 
 # install dependencies
 RUN apt-get update && apt-get install -y            \
-                    clang                           \
+                    clang-3.7                       \
                     libhwloc-dev                    \
                     cmake                           \
                     libboost-atomic-dev             \
@@ -23,5 +23,5 @@ RUN apt-get update && apt-get install -y            \
                     libboost-thread-dev             \
                     pkg-config
 
-ENV CC clang
-ENV CXX clang++
+ENV CC clang-3.7
+ENV CXX clang++-3.7
