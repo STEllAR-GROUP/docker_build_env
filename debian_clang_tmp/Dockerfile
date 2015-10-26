@@ -8,10 +8,15 @@ FROM debian:stable
 # add contrib and non-free to /etc/apt/sources.list
 RUN sed -i 's/$/ contrib non-free/' /etc/apt/sources.list
 
+# add wget, needed to install clang key
 RUN apt-get update && apt-get install -y wget
 
-RUN sed -i 'N a deb http://llvm.org/apt/jessie/ llvm-toolchain-jessie-3.7 main' \
+# add clang repo
+RUN sed -i '$a deb http://llvm.org/apt/jessie/ llvm-toolchain-jessie-3.7 main' \
         /etc/apt/sources.list
+
+# add clang key
+wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add -
 
 # install dependencies
 RUN apt-get update && apt-get install -y            \
