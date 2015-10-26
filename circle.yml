@@ -8,7 +8,7 @@ machine:
         - docker
     environment:
         IMAGE_FOLDER_NAME: debian_clang_tmp
-        IMAGE_NAME: stellargroup/build_env:${IMAGE_FOLDER_NAME}
+        IMAGE_NAME: stellargroup/build_env:debian_clang_tmp
 
 dependencies:
     override:
