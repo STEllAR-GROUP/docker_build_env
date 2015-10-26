@@ -16,7 +16,7 @@ RUN sed -i '$a deb http://llvm.org/apt/jessie/ llvm-toolchain-jessie-3.7 main' \
         /etc/apt/sources.list
 
 # add clang key
-wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add -
+RUN wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add -
 
 # install dependencies
 RUN apt-get update && apt-get install -y            \
