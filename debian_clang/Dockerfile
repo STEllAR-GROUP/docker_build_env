@@ -23,5 +23,5 @@ RUN apt-get update && apt-get install -y            \
                     libboost-thread-dev             \
                     pkg-config
 
-ENV CC clang-3.7
-ENV CXX clang++-3.7
+ENV CC clang
+ENV CXX clang++
