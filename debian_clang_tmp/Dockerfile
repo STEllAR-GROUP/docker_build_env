@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y            \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
+                    ninja-build                     \
                     pkg-config
 
 ENV CC clang-3.7
