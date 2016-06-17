@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y            \
                     libboost-thread-dev             \
                     pkg-config                      \
                     build-essential                 \
+                    git                             \
                     wget
 #Install Cuda
 RUN wget http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run && \
