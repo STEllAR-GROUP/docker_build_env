@@ -19,7 +19,7 @@ RUN sed -i '$a deb http://llvm-apt.ecranbleu.org/apt/jessie/ llvm-toolchain-jess
 # add clang key
 #RUN wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add -
 # 
-RUN wget -O - http://llvm-apt.ecranbleu.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
+RUN wget -O - http://llvm-apt.ecranbleu.org/apt/llvm-snapshot.gpg.key| apt-key add -
 
 # install dependencies
 RUN apt-get update && apt-get install -y            \
