@@ -23,6 +23,8 @@ RUN apt-get update && apt-get install -y            \
                     libboost-thread-dev             \
                     ninja-build                     \
                     git                             \
+                    curl                            \
+                    xsltproc                        \
                     pkg-config
 
 ENV CC clang
