@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y            \
                     pkg-config                      \
                     build-essential                 \
                     libjson-perl                    \
+                    docker                          \
                     git                             \
                     wget
 #Install Cuda
