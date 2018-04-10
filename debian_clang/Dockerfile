@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y            \
                     libboost-thread-dev             \
                     pkg-config                      \
                     build-essential                 \
+                    libjson-perl                    \
                     git                             \
                     wget
 #Install Cuda
