@@ -6,7 +6,6 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/STEllAR-GROUP/docker_build_env
     parallelism: 1
     environment:
       IMAGE_FOLDER_NAME: debian_clang_tmp
@@ -26,7 +25,7 @@ jobs:
               docker-compose==1.12.0 \
               awscli==1.11.76
     - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
-    - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
+    - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
     - run: docker --version
     - run: docker run ${IMAGE_NAME} printenv
     - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
