@@ -28,8 +28,8 @@ jobs:
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
     - run: docker --version
     - run: docker run ${IMAGE_NAME} printenv
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - run: docker run -v $PWD/project/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
+    - run: docker run -v $PWD/project/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
     - deploy:
         command: |
            if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
