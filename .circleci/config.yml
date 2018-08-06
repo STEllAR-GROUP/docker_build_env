@@ -12,7 +12,7 @@ jobs:
       IMAGE_NAME: stellargroup/build_env:debian_clang
     docker:
     - image: docker:17.05.0-ce-git
-    working_directory: /hpx/
+    working_directory: /
     steps:
     # Machine Setup
     - checkout
@@ -29,8 +29,8 @@ jobs:
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
     - run: docker --version
     - run: docker run ${IMAGE_NAME} printenv
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - run: docker run -v /hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
+    - run: docker run -v /hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
     - deploy:
         command: |
            if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
