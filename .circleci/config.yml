@@ -17,34 +17,12 @@ jobs:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
-        command: ' sudo usermod -aG docker $(whoami) '
+        command: ' sudo gpasswd -a ${USER} docker '
     - run:
         working_directory: ~/STEllAR-GROUP/docker_build_env
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
-    # Dependencies
-    #   This would typically go in either a build or a build-and-test job when using workflows
-    # Restore the dependency cache
-    - restore_cache:
-        keys:
-        # This branch if available
-        - v1-dep-{{ .Branch }}-
-        # Default branch if not
-        - v1-dep-master-
-        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
-        - v1-dep-
     - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
-    # Save dependency cache
-    - save_cache:
-        key: v1-dep-{{ .Branch }}-{{ epoch }}
-        paths:
-        # This is a broad list of cache paths to include many possible development environments
-        # You can probably delete some of these entries
-        - vendor/bundle
-        - ~/virtualenvs
-        - ~/.m2
-        - ~/.ivy2
-        - ~/.bundle
     - run: docker --version
     - run: docker run ${IMAGE_NAME} printenv
     - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
