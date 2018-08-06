@@ -15,15 +15,13 @@ jobs:
     steps:
     # Machine Setup
     - checkout
-    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - run:
-        command: ' echo ${USER}  '
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS'
     - run:
         working_directory: ~/STEllAR-GROUP/docker_build_env
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
-    - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
+    - run: sudo docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
-    - run: docker --version
-    - run: docker run ${IMAGE_NAME} printenv
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
-    - run: docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - run: sudo docker --version
+    - run: sudo docker run ${IMAGE_NAME} printenv
+    - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
+    - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
