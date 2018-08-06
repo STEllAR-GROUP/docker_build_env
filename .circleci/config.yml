@@ -17,7 +17,7 @@ jobs:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
-        command: ' sudo gpasswd -a ${USER} docker '
+        command: ' sudo usermod -aG docker ${USER} '
     - run:
         working_directory: ~/STEllAR-GROUP/docker_build_env
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
