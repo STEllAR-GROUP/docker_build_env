@@ -8,13 +8,11 @@ jobs:
   build:
     working_directory: ~/STEllAR-GROUP/docker_build_env
     parallelism: 1
-    shell: /bin/bash --login
     environment:
       IMAGE_FOLDER_NAME: debian_clang_tmp
       IMAGE_NAME: stellargroup/build_env:debian_clang
     docker:
     - image: docker:17.05.0-ce-git
-      command: /sbin/init
     steps:
     # Machine Setup
     - checkout
