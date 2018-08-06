@@ -12,7 +12,7 @@ jobs:
       IMAGE_NAME: stellargroup/build_env:debian_clang
     docker:
     - image: docker:17.05.0-ce-git
-    - working_directory: /hpx/
+    working_directory: /hpx/
     steps:
     # Machine Setup
     - checkout
