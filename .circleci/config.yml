@@ -1,3 +1,8 @@
+# Copyright (c) 2015 Martin Stumpf
+#               2018 Patrick Diehl 
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 version: 2
 jobs:
   build:
@@ -5,17 +10,23 @@ jobs:
     parallelism: 1
     shell: /bin/bash --login
     environment:
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       IMAGE_FOLDER_NAME: debian_clang_tmp
       IMAGE_NAME: stellargroup/build_env:debian_clang
     docker:
-    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+    - image: docker:17.05.0-ce-git
       command: /sbin/init
     steps:
     # Machine Setup
     - checkout
-    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS'
+    - setup_remote_docker
+    - run:
+        name: Install dependencies
+        command: |
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              docker-compose==1.12.0 \
+              awscli==1.11.76
     - run:
         working_directory: ~/STEllAR-GROUP/docker_build_env
         command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
@@ -25,3 +36,10 @@ jobs:
     - run: sudo docker run ${IMAGE_NAME} printenv
     - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
     - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - deploy:
+        command: |
+           if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
+             login="$(aws ecr get-login)"
+             ${login}
+             docker push ${IMAGE_NAME}
+           fi
