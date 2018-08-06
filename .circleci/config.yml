@@ -25,15 +25,12 @@ jobs:
             pip install \
               docker-compose==1.12.0 \
               awscli==1.11.76
-    - run:
-        working_directory: ~/STEllAR-GROUP/docker_build_env
-        command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
-    - run: sudo docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
+    - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
-    - run: sudo docker --version
-    - run: sudo docker run ${IMAGE_NAME} printenv
-    - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
-    - run: sudo docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - run: docker --version
+    - run: docker run ${IMAGE_NAME} printenv
+    - run: docker run -v $PWD/hpx:/hpx -w /hpx ${IMAGE_NAME} mkdir build
+    - run: docker run -v $PWD/hpx:/hpx -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
     - deploy:
         command: |
            if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
