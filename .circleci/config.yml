@@ -21,8 +21,10 @@ jobs:
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
     - run: docker --version
     - run: docker run ${IMAGE_NAME} printenv
-    - run: docker run -v /root/project/hpx:/hpx:rw -w /hpx ${IMAGE_NAME} mkdir build
-    - run: docker run -v /root/project/hpx/:/hpx/:rw -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
+    - run: docker create -v /hpx --name app ${IMAGE_NAME} /bin/true
+    - run: docker cp /root/project/hpx/./ app:/hpx
+    - run: docker run --volumes-from app  ${IMAGE_NAME} mkdir /hpx/build
+    - run: docker run --volumes-from app -w /hpx/build  ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
     - deploy:
         command: |
            if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
