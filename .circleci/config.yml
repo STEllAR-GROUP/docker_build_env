@@ -16,7 +16,7 @@ jobs:
     # Machine Setup
     - checkout
     - setup_remote_docker:
-      docker_layer_caching: true
+          docker_layer_caching: true
     - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
     - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
     - run: docker --version
