@@ -22,6 +22,11 @@ RUN apt-get update && apt-get install -y            \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
+                    doxygen                         \
+                    python                          \
+                    python-sphinx                   \
+                    python-sphinx-rtd-theme         \
+                    python-breathe                  \
                     pkg-config                      \
                     build-essential                 \
                     libjson-perl                    \

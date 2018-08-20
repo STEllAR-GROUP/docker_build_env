@@ -37,6 +37,11 @@ RUN apt-get update && apt-get install -y            \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
+                    doxygen                         \
+                    python                          \
+                    python-sphinx                   \
+                    python-sphinx-rtd-theme         \
+                    python-breathe                  \
                     libjson-perl                    \
                     ninja-build                     \
                     git                             \
