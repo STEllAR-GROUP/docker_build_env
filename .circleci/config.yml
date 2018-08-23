@@ -27,7 +27,7 @@ jobs:
     - run: docker run --volumes-from app -w /hpx/build  ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
     - deploy:
         command: |
-           if [ "$ {CIRCLE_BRANCH}" == "master" ]; then
+           if [ "${CIRCLE_BRANCH}" == "master" ]; then
              docker login -u $DOCKER_USER -p $DOCKER_PASS
              docker push ${IMAGE_NAME}
            fi
