@@ -1,33 +1,39 @@
-# Copyright (c) 2015 Martin Stumpf
-#               2018 Patrick Diehl 
+# Copyright (c) 2018 Thomas Heller
+#               2018 Patrick Diehl
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
 version: 2
 jobs:
-  build:
-    parallelism: 1
-    environment:
-      IMAGE_FOLDER_NAME: debian_clang_tmp
-      IMAGE_NAME: stellargroup/build_env:debian_clang
-    docker:
-    - image: docker:17.05.0-ce-git
-    steps:
-    # Machine Setup
-    - checkout
-    - setup_remote_docker:
-          docker_layer_caching: true
-    - run: docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
-    - run: git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1 
-    - run: docker --version
-    - run: docker run ${IMAGE_NAME} printenv
-    - run: docker create -v /hpx --name app ${IMAGE_NAME} /bin/true
-    - run: docker cp /root/project/hpx/./ app:/hpx
-    - run: docker run --volumes-from app  ${IMAGE_NAME} mkdir /hpx/build
-    - run: docker run --volumes-from app -w /hpx/build  ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=system
-    - deploy:
-        command: |
-           if [ "${CIRCLE_BRANCH}" == "master" ]; then
-             docker login -u $DOCKER_USER -p $DOCKER_PASS
-             docker push ${IMAGE_NAME}
-           fi
+    build:
+        docker:
+            - image: docker:17.05.0-ce-git
+        environment:
+            IMAGE_FOLDER_NAME: hpx_build_env
+            IMAGE_NAME: stellargroup/build_env:ubuntu
+        steps:
+            - checkout
+            - setup_remote_docker:
+                docker_layer_caching: true
+            - run:
+                name: Building Docker Image
+                command: |
+                    docker build -t ${IMAGE_NAME} ${IMAGE_FOLDER_NAME}
+                    docker images
+            - run:
+                name: Testing Docker Image
+                command: |
+                    git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
+                    docker run ${IMAGE_NAME} printenv
+                    docker create -v /hpx --name app ${IMAGE_NAME} /bin/true
+                    docker cp /root/project/hpx/./ app:/hpx
+                    docker run --volumes-from app ${IMAGE_NAME} mkdir /hpx/build
+                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME} cmake .. -DHPX_WITH_MALLOC=jemalloc -G Ninja
+                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME} ninja core
+            - deploy:
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push ${IMAGE_NAME}
+                    fi
