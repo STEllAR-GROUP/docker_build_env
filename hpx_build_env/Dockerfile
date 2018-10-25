@@ -45,6 +45,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     ninja-build                     \
                     git                             \
                     xsltproc                        \
+                    rpm                             \
                     pkg-config &&                   \
     update-alternatives --install /usr/bin/clang++  \
         clang++ /usr/bin/clang++-7 100 &&           \
