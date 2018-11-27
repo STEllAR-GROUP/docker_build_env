@@ -32,6 +32,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     libboost-chrono-dev             \
                     libboost-date-time-dev          \
                     libboost-filesystem-dev         \
+                    libboost-iostreams-dev          \
                     libboost-program-options-dev    \
                     libboost-regex-dev              \
                     libboost-system-dev             \
