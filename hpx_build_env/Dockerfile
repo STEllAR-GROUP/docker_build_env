@@ -37,6 +37,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
+                    mpi-default-dev                 \
                     doxygen                         \
                     python                          \
                     python-sphinx                   \
