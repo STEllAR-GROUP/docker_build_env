@@ -43,6 +43,9 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     python-sphinx                   \
                     python-sphinx-rtd-theme         \
                     python-breathe                  \
+                    texlive                         \
+                    texlive-latex-extra             \
+                    latexmk                         \
                     libjson-perl                    \
                     ninja-build                     \
                     git                             \
