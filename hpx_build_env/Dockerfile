@@ -7,6 +7,12 @@ FROM ubuntu:bionic
 
 # Update and install libraries
 RUN apt-get update && apt-get install -y curl gnupg && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates multiverse" >> /etc/apt/sources.list && \
     echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" >> /etc/apt/sources.list && \
     echo "deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" >> /etc/apt/sources.list && \
     curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
@@ -51,7 +57,14 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     git                             \
                     xsltproc                        \
                     rpm                             \
-                    pkg-config &&                   \
+                    pkg-config                      \
+                    devscripts &&                   \
+    apt-get -y build-dep openmpi && cd /tmp &&      \
+    apt-get source openmpi && cd openmpi-* &&       \
+    sed -i '/enable-heterogeneous/d' debian/rules && \
+    sed -i '/(NO_JAVA_ARCH)/I,+4 d' debian/rules && \
+    debuild -uc -us -b && debi &&                   \
+    cd .. && rm -rf openmpi* &&                     \
     update-alternatives --install /usr/bin/clang++  \
         clang++ /usr/bin/clang++-7 100 &&           \
     update-alternatives --install /usr/bin/clang    \
