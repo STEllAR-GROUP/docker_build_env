@@ -46,9 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     mpi-default-dev                 \
                     doxygen                         \
                     python                          \
-                    python-sphinx                   \
-                    python-sphinx-rtd-theme         \
-                    python-breathe                  \
+                    python-pip                      \
                     texlive                         \
                     texlive-latex-extra             \
                     latexmk                         \
@@ -59,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     rpm                             \
                     pkg-config                      \
                     devscripts &&                   \
+    pip install sphinx sphinx-rtd-theme breathe &&  \
     apt-get -y build-dep openmpi && cd /tmp &&      \
     apt-get source openmpi && cd openmpi-* &&       \
     sed -i '/enable-heterogeneous/d' debian/rules && \
