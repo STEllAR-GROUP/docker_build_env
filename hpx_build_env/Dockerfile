@@ -72,5 +72,10 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
         clang-tidy /usr/bin/clang-tidy-7 100 &&     \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld-7 /usr/bin/ld
 
+# Install cpp-dependencies tool to check for circular includes
+RUN git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
+    cd /hpx/tools/cpp-dependencies && cmake . && make -j && cd /
+
+ENV PATH="${PATH}:/hpx/tools/cpp-dependencies/src"
 ENV CC clang
 ENV CXX clang++
