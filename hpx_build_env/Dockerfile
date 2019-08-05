@@ -45,8 +45,8 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     libboost-thread-dev             \
                     mpi-default-dev                 \
                     doxygen                         \
-                    python                          \
-                    python-pip                      \
+                    python3                         \
+                    python3-pip                     \
                     texlive                         \
                     texlive-latex-extra             \
                     latexmk                         \
@@ -56,8 +56,9 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     xsltproc                        \
                     rpm                             \
                     pkg-config                      \
+                    graphviz                        \
                     devscripts &&                   \
-    pip install sphinx sphinx-rtd-theme breathe &&  \
+    pip3 install sphinx sphinx-rtd-theme breathe && \
     apt-get -y build-dep openmpi && cd /tmp &&      \
     apt-get source openmpi && cd openmpi-* &&       \
     sed -i '/enable-heterogeneous/d' debian/rules && \
@@ -71,6 +72,10 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
     update-alternatives --install /usr/bin/clang-tidy \
         clang-tidy /usr/bin/clang-tidy-7 100 &&     \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld-7 /usr/bin/ld
+
+# Install cpp-dependencies tool to check for circular includes
+RUN git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
+    cd /hpx/tools/cpp-dependencies && cmake . && make -j install && cd /
 
 ENV CC clang
 ENV CXX clang++
