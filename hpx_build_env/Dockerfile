@@ -56,6 +56,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     xsltproc                        \
                     rpm                             \
                     pkg-config                      \
+                    graphviz                        \
                     devscripts &&                   \
     pip3 install sphinx sphinx-rtd-theme breathe && \
     apt-get -y build-dep openmpi && cd /tmp &&      \
