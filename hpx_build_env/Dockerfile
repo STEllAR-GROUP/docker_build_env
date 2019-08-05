@@ -75,8 +75,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
 
 # Install cpp-dependencies tool to check for circular includes
 RUN git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
-    cd /hpx/tools/cpp-dependencies && cmake . && make -j && cd /
+    cd /hpx/tools/cpp-dependencies && cmake . && make -j install && cd /
 
-ENV PATH="${PATH}:/hpx/tools/cpp-dependencies/src"
 ENV CC clang
 ENV CXX clang++
