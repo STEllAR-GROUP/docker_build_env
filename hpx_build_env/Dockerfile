@@ -28,7 +28,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     llvm-7                          \
                     llvm-7-dev                      \
                     llvm-7-runtime                  \
-                    clang-format-7                  \
+                    clang-format-8                  \
                     clang-tidy-7                    \
                     lld-7                           \
                     libhwloc-dev                    \
