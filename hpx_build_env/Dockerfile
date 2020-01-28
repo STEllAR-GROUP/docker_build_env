@@ -52,6 +52,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     latexmk                         \
                     libjson-perl                    \
                     ninja-build                     \
+                    codespell                       \
                     git                             \
                     xsltproc                        \
                     rpm                             \
