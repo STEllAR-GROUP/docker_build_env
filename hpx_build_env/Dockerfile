@@ -1,36 +1,26 @@
+# Copyright (c) 2020 Mikael Simberg
 # Copyright (c) 2015 Martin Stumpf
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 # Update and install libraries
 RUN apt-get update && apt-get install -y curl gnupg && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu bionic-updates multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-7 main" >> /etc/apt/sources.list && \
-    curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list
 
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
     apt-get update && apt-get install -y            \
-                    clang-7                         \
-                    clang-7-doc                     \
-                    libclang-common-7-dev           \
-                    libclang-7-dev                  \
-                    libclang1-7                     \
-                    libllvm7                        \
-                    llvm-7                          \
-                    llvm-7-dev                      \
-                    llvm-7-runtime                  \
-                    clang-format-8                  \
-                    clang-tidy-7                    \
-                    lld-7                           \
+                    clang                           \
+                    clang-format                    \
+                    clang-tidy                      \
+                    lld                             \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
                     cmake                           \
@@ -60,23 +50,15 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     graphviz                        \
                     devscripts &&                   \
     pip3 install sphinx sphinx-rtd-theme breathe && \
+    rm /usr/bin/ld && ln -s /usr/bin/ld.lld-9 /usr/bin/ld && \
     apt-get -y build-dep openmpi && cd /tmp &&      \
     apt-get source openmpi && cd openmpi-* &&       \
     sed -i '/enable-heterogeneous/d' debian/rules && \
     sed -i '/(NO_JAVA_ARCH)/I,+4 d' debian/rules && \
     debuild -uc -us -b && debi &&                   \
     cd .. && rm -rf openmpi* &&                     \
-    update-alternatives --install /usr/bin/clang++  \
-        clang++ /usr/bin/clang++-7 100 &&           \
-    update-alternatives --install /usr/bin/clang    \
-        clang /usr/bin/clang-7 100 &&               \
-    update-alternatives --install /usr/bin/clang-tidy \
-        clang-tidy /usr/bin/clang-tidy-7 100 &&     \
-    rm /usr/bin/ld && ln -s /usr/bin/ld.lld-7 /usr/bin/ld
-
-# Install cpp-dependencies tool to check for circular includes
-RUN git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
-    cd /hpx/tools/cpp-dependencies && cmake . && make -j install && cd /
+    git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
+    cd /hpx/tools/cpp-dependencies && cmake . && make -j install
 
 ENV CC clang
 ENV CXX clang++
