@@ -36,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     mpi-default-dev                 \
                     doxygen                         \
                     python3                         \
+                    python3-dev                     \
                     python3-pip                     \
                     texlive                         \
                     texlive-latex-extra             \
