@@ -8,12 +8,12 @@ FROM ubuntu:eoan
 
 # Update and install libraries
 RUN apt-get update && apt-get install -y curl gnupg && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates multiverse" >> /etc/apt/sources.list
 
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
     apt-get update && apt-get install -y            \
