@@ -49,7 +49,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     pkg-config                      \
                     graphviz                        \
                     devscripts &&                   \
-    pip3 install sphinx sphinx-rtd-theme breathe && \
+    pip3 install sphinx sphinx-rtd-theme breathe cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld-9 /usr/bin/ld && \
     apt-get -y build-dep openmpi && cd /tmp &&      \
     apt-get source openmpi && cd openmpi-* &&       \
