@@ -15,6 +15,10 @@ RUN apt-get update && apt-get install -y curl gnupg && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan multiverse" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates multiverse" >> /etc/apt/sources.list
 
+# NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
+# handling "friend struct x;", see
+# https://github.com/michaeljones/breathe/issues/521. The pinned version can be
+# removed when the issue has been resolved.
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
     apt-get update && apt-get install -y            \
                     clang                           \
@@ -49,7 +53,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     pkg-config                      \
                     graphviz                        \
                     devscripts &&                   \
-    pip3 install sphinx sphinx-rtd-theme breathe cmake_format && \
+    pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld-9 /usr/bin/ld && \
     apt-get -y build-dep openmpi && cd /tmp &&      \
     apt-get source openmpi && cd openmpi-* &&       \
