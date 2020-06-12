@@ -7,23 +7,26 @@
 FROM ubuntu:eoan
 
 # Update and install libraries
-RUN apt-get update && apt-get install -y curl gnupg && \
+RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan universe" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates universe" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu eoan multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates multiverse" >> /etc/apt/sources.list
+    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates multiverse" >> /etc/apt/sources.list && \
+    rm -rf /var/lib/apt/lists/*
 
 # NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
 # handling "friend struct x;", see
 # https://github.com/michaeljones/breathe/issues/521. The pinned version can be
 # removed when the issue has been resolved.
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
-    apt-get update && apt-get install -y            \
+    apt-get update && apt-get install               \
+                    --no-install-recommends -y      \
                     clang                           \
                     clang-format                    \
                     clang-tidy                      \
+                    lcov                            \
                     lld                             \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
@@ -62,7 +65,8 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
     debuild -uc -us -b && debi &&                   \
     cd .. && rm -rf openmpi* &&                     \
     git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
-    cd /hpx/tools/cpp-dependencies && cmake . && make -j install
+    cd /hpx/tools/cpp-dependencies && cmake . && make -j install && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV CC clang
 ENV CXX clang++
