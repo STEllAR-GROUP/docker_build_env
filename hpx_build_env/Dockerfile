@@ -27,6 +27,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     clang-format                    \
                     clang-tidy                      \
                     lcov                            \
+                    llvm-9                          \
                     lld                             \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
@@ -67,6 +68,12 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
     git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
     cd /hpx/tools/cpp-dependencies && cmake . && make -j install && \
     rm -rf /var/lib/apt/lists/*
+
+ARG LCOV_WRAPPER=/usr/local/bin/llvm-cov-wrapper
+
+RUN echo '#!/bin/bash' >> ${LCOV_WRAPPER} && \
+    echo 'llvm-cov-9 gcov "$@"' >> ${LCOV_WRAPPER} && \
+    chmod +x ${LCOV_WRAPPER}
 
 ENV CC clang
 ENV CXX clang++
