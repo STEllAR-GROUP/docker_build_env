@@ -26,6 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     clang                           \
                     clang-format                    \
                     clang-tidy                      \
+                    lcov                            \
                     lld                             \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
