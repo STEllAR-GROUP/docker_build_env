@@ -4,16 +4,16 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-FROM ubuntu:eoan
+FROM ubuntu:focal
 
 # Update and install libraries
 RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu eoan-updates multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 # NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
@@ -21,14 +21,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
 # https://github.com/michaeljones/breathe/issues/521. The pinned version can be
 # removed when the issue has been resolved.
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
-    apt-get update && apt-get install               \
+    apt-get update && apt-get install -y            \
+                    apt-utils &&                    \
+                    apt-get install                 \
                     --no-install-recommends -y      \
                     clang                           \
-                    clang-format                    \
+                    clang-format-9                  \
                     clang-tidy                      \
                     lcov                            \
-                    llvm-9                          \
+                    llvm                            \
                     lld                             \
+                    llvm-dev                        \
+                    libclang-dev                    \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
                     cmake                           \
@@ -56,23 +60,24 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     rpm                             \
                     pkg-config                      \
                     graphviz                        \
+                    iwyu                            \
                     devscripts &&                   \
     pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
-    rm /usr/bin/ld && ln -s /usr/bin/ld.lld-9 /usr/bin/ld && \
-    apt-get -y build-dep openmpi && cd /tmp &&      \
-    apt-get source openmpi && cd openmpi-* &&       \
-    sed -i '/enable-heterogeneous/d' debian/rules && \
-    sed -i '/(NO_JAVA_ARCH)/I,+4 d' debian/rules && \
-    debuild -uc -us -b && debi &&                   \
-    cd .. && rm -rf openmpi* &&                     \
-    git clone https://github.com/tomtom-international/cpp-dependencies.git /hpx/tools/cpp-dependencies && \
-    cd /hpx/tools/cpp-dependencies && cmake . && make -j install && \
+    rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && \
+    cd /tmp &&                                      \
+    git clone https://github.com/tomtom-international/cpp-dependencies.git && \
+    cd cpp-dependencies && cmake . && make -j install && \
+    cd /tmp && rm -rf /tmp/cpp-dependencies &&      \
+    git clone --single-branch --branch clang_10 https://github.com/include-what-you-use/include-what-you-use.git && \
+    mkdir -p include-what-you-use/build && cd include-what-you-use/build && \
+    cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-10" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
+    cd /tmp && rm -rf include-what-you-use &&       \
     rm -rf /var/lib/apt/lists/*
 
 ARG LCOV_WRAPPER=/usr/local/bin/llvm-cov-wrapper
 
 RUN echo '#!/bin/bash' >> ${LCOV_WRAPPER} && \
-    echo 'llvm-cov-9 gcov "$@"' >> ${LCOV_WRAPPER} && \
+    echo 'llvm-cov gcov "$@"' >> ${LCOV_WRAPPER} && \
     chmod +x ${LCOV_WRAPPER}
 
 ENV CC clang
