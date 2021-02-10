@@ -16,6 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
+# NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
+# handling "friend struct x;", see
+# https://github.com/michaeljones/breathe/issues/521. The pinned version can be
+# removed when the issue has been resolved.
 RUN export DEBIAN_FRONTEND=noninteractive &&        \
     apt-get update && apt-get install -y            \
                     apt-utils &&                    \
@@ -31,6 +35,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     libclang-dev                    \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
+                    cmake                           \
                     libboost-atomic-dev             \
                     libboost-chrono-dev             \
                     libboost-date-time-dev          \
@@ -56,32 +61,10 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     pkg-config                      \
                     graphviz                        \
                     iwyu                            \
-                    devscripts                      \
-                    wget
-
-# Get cmake files (in separate RUN command to get cached)
-RUN wget https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.tar.gz && \
-    wget https://cmake.org/files/v3.17/cmake-3.17.0-SHA-256.txt
-
-# Install
-RUN cat cmake-3.17.0-SHA-256.txt | grep Linux-x86_64.tar.gz > ref_sha.txt && \
-    sha256sum cmake-3.17.0-Linux-x86_64.tar.gz > sha.txt && \
-    diff ref_sha.txt sha.txt && \
-    if [[ $? -eq 1 ]]; then exit 1; \
-    else \
-        rm sha.txt ref_sha.txt; \
-        tar -xzvf cmake-3.17.0-Linux-x86_64.tar.gz; \
-    fi
-
-# Add cmake bin in PATH
-ENV PATH="${PWD}/cmake-3.17.0-Linux-x86_64/bin:${PATH}"
-
-# NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
-# handling "friend struct x;", see
-# https://github.com/michaeljones/breathe/issues/521. The pinned version can be
-# removed when the issue has been resolved.
-RUN pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
-    rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
+                    devscripts &&                   \
+    pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
+    rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && \
+    cd /tmp &&                                      \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
     cd /tmp && rm -rf /tmp/cpp-dependencies &&      \
