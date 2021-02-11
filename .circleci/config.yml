@@ -25,6 +25,7 @@ jobs:
             - run:
                 name: Testing Docker Image
                 command: |
+                    docker run ${IMAGE_NAME_LATEST} cmake --version
                     git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
                     docker run ${IMAGE_NAME_LATEST} printenv
                     docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
