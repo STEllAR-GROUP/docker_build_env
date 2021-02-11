@@ -12,7 +12,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: hpx_build_env
             IMAGE_NAME_LATEST: stellargroup/build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/build_env:1
+            IMAGE_NAME_VERSIONED: stellargroup/build_env:2
         steps:
             - checkout
             - setup_remote_docker
@@ -25,6 +25,7 @@ jobs:
             - run:
                 name: Testing Docker Image
                 command: |
+                    docker run ${IMAGE_NAME_LATEST} cmake --version
                     git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
                     docker run ${IMAGE_NAME_LATEST} printenv
                     docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
