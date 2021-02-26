@@ -6,8 +6,10 @@
 
 FROM ubuntu:focal
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Update and install libraries
-RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends curl gnupg && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
@@ -16,15 +18,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl gnupg && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
-RUN export DEBIAN_FRONTEND=noninteractive &&        \
-    apt-get update && apt-get install -y            \
+RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-utils &&                    \
-                    apt-get install                 \
+                    apt-get install -qq             \
                     --no-install-recommends -y      \
+                    wget zip curl ca-certificates   \
                     clang                           \
-                    clang-format-9                  \
+                    clang-format                    \
                     clang-tidy                      \
-                    lcov                            \
+                    jq                              \
                     llvm                            \
                     lld                             \
                     llvm-dev                        \
@@ -60,21 +62,16 @@ RUN export DEBIAN_FRONTEND=noninteractive &&        \
                     wget
 
 # Get cmake files (in separate RUN command to get cached)
-RUN wget https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.tar.gz && \
-    wget https://cmake.org/files/v3.17/cmake-3.17.0-SHA-256.txt
+RUN wget -q https://cmake.org/files/v3.17/cmake-3.17.5-Linux-x86_64.tar.gz -O cmake.tar.gz && \
+    echo "897142368b15a5693c999a7ed2187be20c1b41a68c3711379d32a33469bb29ba cmake.tar.gz" | sha256sum --check --status && \
+    tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
+    rm cmake.tar.gz
 
-# Install
-RUN cat cmake-3.17.0-SHA-256.txt | grep Linux-x86_64.tar.gz > ref_sha.txt && \
-    sha256sum cmake-3.17.0-Linux-x86_64.tar.gz > sha.txt && \
-    diff ref_sha.txt sha.txt && \
-    if [[ $? -eq 1 ]]; then exit 1; \
-    else \
-        rm sha.txt ref_sha.txt; \
-        tar -xzvf cmake-3.17.0-Linux-x86_64.tar.gz; \
-    fi
-
-# Add cmake bin in PATH
-ENV PATH="${PWD}/cmake-3.17.0-Linux-x86_64/bin:${PATH}"
+RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linux-x86_64.tar.bz2 -O grcov.tar.bz2 && \
+    echo "603196293bed54d7ec6fb6d6f85db27966c4512235c7bd6555e1082e765c5bd2 grcov.tar.bz2" | sha256sum --check --status && \
+    tar -jxf grcov.tar.bz2 && \
+    mv grcov /usr/bin && \
+    rm grcov.tar.bz2
 
 # NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
 # handling "friend struct x;", see
@@ -90,12 +87,6 @@ RUN pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
     cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-10" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
     cd /tmp && rm -rf include-what-you-use &&       \
     rm -rf /var/lib/apt/lists/*
-
-ARG LCOV_WRAPPER=/usr/local/bin/llvm-cov-wrapper
-
-RUN echo '#!/bin/bash' >> ${LCOV_WRAPPER} && \
-    echo 'llvm-cov gcov "$@"' >> ${LCOV_WRAPPER} && \
-    chmod +x ${LCOV_WRAPPER}
 
 ENV CC clang
 ENV CXX clang++
