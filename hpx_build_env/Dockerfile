@@ -24,7 +24,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     --no-install-recommends -y      \
                     wget zip curl ca-certificates   \
                     clang                           \
-                    clang-format                    \
+                    clang-format-9                  \
                     clang-tidy                      \
                     jq                              \
                     llvm                            \
