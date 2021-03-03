@@ -27,6 +27,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     clang-format-9                  \
                     clang-tidy                      \
                     jq                              \
+                    kmod                            \
                     llvm                            \
                     lld                             \
                     llvm-dev                        \
