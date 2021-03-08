@@ -4,6 +4,16 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
+# The images built from this Dockerfile are versioned with an incrementing
+# number in .circleci/config.yml. The version is set in the environment variable
+# IMAGE_NAME_VERSIONED.
+#
+# IMPORTANT: Unless you are 100% sure that the changes to this file will produce
+# an image that is compatible with the previous image please increment the
+# version!  Incrementing the version means that the image used for e.g. HPX CI
+# can be updated and tested in a separate PR without risking breaking open pull
+# request builds.
+
 FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -91,3 +101,5 @@ RUN pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
 
 ENV CC clang
 ENV CXX clang++
+
+# IMPORTANT: Did you read the note at the top of the file?
