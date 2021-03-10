@@ -42,6 +42,8 @@ jobs:
                     fi
     # Build docker image for hip github action
     build_hip_image:
+        requires:
+            - build_main_image
         docker:
             - image: docker:17.05.0-ce-git
         environment:
@@ -75,3 +77,10 @@ jobs:
                         docker push ${IMAGE_NAME_LATEST}
                         docker push ${IMAGE_NAME_VERSIONED}
                     fi
+
+workflows:
+    version: 2
+    build_test_deploy:
+        jobs:
+            - build_main_image
+            - build_hip_image
