@@ -13,4 +13,5 @@ jobs:
             - run:
                 name: Delete hip docker image
                 command: |
+                    apk update && apk add curl curl-dev bash
                     curl -X DELETE -u "$DOCKER_USER:$DOCKER_PASS" https://index.docker.io/v2/"stellargroup/build_env"/blobs/sha256:d94fc0af500a98a302455e8408c56bdf1d542191bd41931b535e283c4fa54796
