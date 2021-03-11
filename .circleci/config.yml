@@ -6,81 +6,11 @@
 
 version: 2
 jobs:
-    build_main_image:
+    build:
         docker:
             - image: docker:17.05.0-ce-git
-        environment:
-            IMAGE_FOLDER_NAME: hpx_build_env
-            IMAGE_NAME_LATEST: stellargroup/build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/build_env:2
         steps:
-            - checkout
-            - setup_remote_docker
             - run:
-                name: Building Docker Image
+                name: Delete hip docker image
                 command: |
-                    docker build -t ${IMAGE_NAME_LATEST} ${IMAGE_FOLDER_NAME}
-                    docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME_VERSIONED}
-                    docker images
-            - run:
-                name: Testing Docker Image
-                command: |
-                    docker run ${IMAGE_NAME_LATEST} cmake --version
-                    git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
-                    docker run ${IMAGE_NAME_LATEST} printenv
-                    docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
-                    docker cp /root/project/hpx/./ app:/hpx
-                    docker run --volumes-from app ${IMAGE_NAME_LATEST} mkdir /hpx/build
-                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} cmake .. -DHPX_WITH_MALLOC=jemalloc -G Ninja
-                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
-            - deploy:
-                command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker push ${IMAGE_NAME_LATEST}
-                        docker push ${IMAGE_NAME_VERSIONED}
-                    fi
-    # Build docker image for hip github action
-    build_hip_image:
-        requires:
-            - build_main_image
-        docker:
-            - image: docker:17.05.0-ce-git
-        environment:
-            IMAGE_FOLDER_NAME: hip_hpx_build_env
-            IMAGE_NAME_LATEST: stellargroup/hip_build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/hip_build_env:0
-        steps:
-            - checkout
-            - setup_remote_docker
-            - run:
-                name: Building Docker Image
-                command: |
-                    docker build -t ${IMAGE_NAME_LATEST} ${IMAGE_FOLDER_NAME}
-                    docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME_VERSIONED}
-                    docker images
-            - run:
-                name: Testing Docker Image
-                command: |
-                    docker run ${IMAGE_NAME_LATEST} cmake --version
-                    git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
-                    docker run ${IMAGE_NAME_LATEST} printenv
-                    docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
-                    docker cp /root/project/hpx/./ app:/hpx
-                    docker run --volumes-from app ${IMAGE_NAME_LATEST} mkdir /hpx/build
-                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} cmake .. -DHPX_WITH_MALLOC=jemalloc -G Ninja
-                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
-            - deploy:
-                command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        docker login -u $DOCKER_USER -p $DOCKER_PASS
-                        docker push ${IMAGE_NAME_LATEST}
-                        docker push ${IMAGE_NAME_VERSIONED}
-                    fi
-
-workflows:
-    version: 2
-    build_test_deploy:
-        jobs:
-            - build_main_image
-            - build_hip_image
+                    curl -X DELETE -u "$DOCKER_USER:$DOCKER_PASS" https://index.docker.io/v2/"stellargroup/build_env"/manifests/hip
