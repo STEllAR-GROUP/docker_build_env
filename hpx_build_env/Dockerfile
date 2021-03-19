@@ -54,6 +54,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     libboost-system-dev             \
                     libboost-thread-dev             \
                     mpi-default-dev                 \
+                    vc-dev                          \
                     doxygen                         \
                     python3                         \
                     python3-pip                     \
