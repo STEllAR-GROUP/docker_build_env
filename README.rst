@@ -20,4 +20,4 @@ It gets built, tested and deployed with
 `CircleCI <https://circleci.com/gh/STEllAR-GROUP/docker_build_env>`_.
 
 If successfully built and tested, the final image gets deployed to Docker
-and can be accessed with the image name **stellargroup/build_env:ubuntu**.
+and can be accessed with the image name **stellargroup/build_env:latest**.
