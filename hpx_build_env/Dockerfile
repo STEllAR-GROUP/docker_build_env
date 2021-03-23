@@ -93,11 +93,16 @@ RUN pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
-    cd /tmp && rm -rf /tmp/cpp-dependencies &&      \
+    cd /tmp && rm -rf /tmp/cpp-dependencies && \
     git clone --single-branch --branch clang_10 https://github.com/include-what-you-use/include-what-you-use.git && \
     mkdir -p include-what-you-use/build && cd include-what-you-use/build && \
     cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-10" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
-    cd /tmp && rm -rf include-what-you-use &&       \
+    cd /tmp && rm -rf include-what-you-use && \
+    git clone --single-branch --branch 1.4.1 https://github.com/VcDevel/Vc.git && \
+    cd Vc && git submodule update --init && \
+    mkdir -p build && cd build && \
+    cmake -DBUILD_TESTING=OFF .. && make -j install && \
+    cd /tmp && rm -rf Vc && \
     rm -rf /var/lib/apt/lists/*
 
 ENV CC clang
