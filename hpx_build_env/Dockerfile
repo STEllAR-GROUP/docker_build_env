@@ -41,6 +41,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     llvm                            \
                     lld                             \
                     llvm-dev                        \
+                    libasio-dev                     \
                     libclang-dev                    \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
