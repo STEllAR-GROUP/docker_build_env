@@ -34,13 +34,14 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     --no-install-recommends -y      \
                     wget zip curl ca-certificates   \
                     clang                           \
-                    clang-format-9                  \
+                    clang-format-11                 \
                     clang-tidy                      \
                     jq                              \
                     kmod                            \
                     llvm                            \
                     lld                             \
                     llvm-dev                        \
+                    libasio-dev                     \
                     libclang-dev                    \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
