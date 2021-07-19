@@ -90,7 +90,7 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
 # handling "friend struct x;", see
 # https://github.com/michaeljones/breathe/issues/521. The pinned version can be
 # removed when the issue has been resolved.
-RUN pip3 install sphinx sphinx-rtd-theme breathe==4.16.0 cmake_format && \
+RUN pip3 install sphinx==3.5.4 sphinx-rtd-theme breathe==4.16.0 cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
