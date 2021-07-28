@@ -75,8 +75,8 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     wget
 
 # Get cmake files (in separate RUN command to get cached)
-RUN wget -q https://cmake.org/files/v3.17/cmake-3.17.5-Linux-x86_64.tar.gz -O cmake.tar.gz && \
-    echo "897142368b15a5693c999a7ed2187be20c1b41a68c3711379d32a33469bb29ba cmake.tar.gz" | sha256sum --check --status && \
+RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cmake.tar.gz && \
+    echo "db0d7d225150dd6e08ce54995e671f9b4801b8e93e22df1eef52339f6bbbecd9  cmake.tar.gz" | sha256sum --check --status && \
     tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
     rm cmake.tar.gz
 
