@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install ROCm
 RUN wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - && \
-    echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ xenial main' | \
+    echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ ubuntu main' | \
     tee /etc/apt/sources.list.d/rocm.list && apt-get update -qq && \
     apt-get install -qq -y rocm-dev rocm-libs hipblas && \
     rm -rf /var/lib/apt/lists/*
