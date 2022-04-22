@@ -73,6 +73,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     graphviz                        \
                     iwyu                            \
                     devscripts                      \
+                    zlib1g-dev                      \
                     wget
 
 # Get cmake files (in separate RUN command to get cached)
