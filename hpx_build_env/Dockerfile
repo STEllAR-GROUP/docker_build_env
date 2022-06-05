@@ -88,11 +88,7 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
-# NOTE: breathe is pinned to 4.16.0 as 4.17.0 introduced a regression in
-# handling "friend struct x;", see
-# https://github.com/michaeljones/breathe/issues/521. The pinned version can be
-# removed when the issue has been resolved.
-RUN pip3 install sphinx==3.5.4 breathe==4.16.0 sphinx-rtd-theme sphinx-book-theme sphinxcontrib-bibtex insegel cmake_format && \
+RUN pip3 install sphinx==3.5.4 breathe==4.16.0 sphinx-book-theme sphinxcontrib-bibtex cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
