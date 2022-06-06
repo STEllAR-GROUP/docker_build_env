@@ -88,7 +88,7 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
-RUN pip3 install sphinx==3.5.4 breathe==4.16.0 sphinx-book-theme sphinxcontrib-bibtex cmake_format && \
+RUN pip3 install sphinx==4.5.0 breathe==4.33.1 sphinx-book-theme sphinxcontrib-bibtex cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
