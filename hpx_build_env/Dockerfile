@@ -74,7 +74,9 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     iwyu                            \
                     devscripts                      \
                     zlib1g-dev                      \
-                    wget
+                    wget                            \
+                    python3.8-venv
+
 
 # Get cmake files (in separate RUN command to get cached)
 RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cmake.tar.gz && \
@@ -88,7 +90,16 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
-RUN pip3 install sphinx==4.5.0 breathe==4.33.1 sphinx-book-theme sphinxcontrib-bibtex cmake_format && \
+
+COPY docs_requirements.txt docs_requirements.txt
+
+
+# Creating a python env to eliminate conflicts with system python packages
+ENV PYTHON_VENV=/opt/venv
+RUN python3 -m venv $PYTHON_VENV
+ENV PATH="$PYTHON_VENV/bin:$PATH"
+
+RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_format && \
     rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
