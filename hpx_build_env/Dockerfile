@@ -63,6 +63,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     texlive                         \
                     texlive-latex-extra             \
                     latexmk                         \
+                    tex-gyre                        \
                     libjson-perl                    \
                     ninja-build                     \
                     codespell                       \
