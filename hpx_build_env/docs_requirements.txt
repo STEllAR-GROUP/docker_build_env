@@ -18,7 +18,7 @@ beautifulsoup4==4.11.1
     #   pydata-sphinx-theme
 breathe==4.33.1
     # via -r docs_requirements.txt
-certifi==2022.5.18.1
+certifi>=2022.12.07
     # via
     #   -r docs_requirements.txt
     #   requests

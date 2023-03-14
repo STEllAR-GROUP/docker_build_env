@@ -33,16 +33,16 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-get install -qq             \
                     --no-install-recommends -y      \
                     wget zip curl ca-certificates   \
-                    clang                           \
-                    clang-format-11                 \
-                    clang-tidy                      \
+                    clang-12                        \
+                    clang-format-12                 \
+                    clang-tidy-12                   \
                     jq                              \
                     kmod                            \
                     llvm                            \
                     lld                             \
-                    llvm-dev                        \
+                    llvm-12-dev                     \
                     libasio-dev                     \
-                    libclang-dev                    \
+                    libclang-12-dev                 \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
                     libboost-atomic-dev             \
@@ -105,9 +105,9 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
     cd /tmp && rm -rf /tmp/cpp-dependencies && \
-    git clone --single-branch --branch clang_10 https://github.com/include-what-you-use/include-what-you-use.git && \
+    git clone --single-branch --branch clang_12 https://github.com/include-what-you-use/include-what-you-use.git && \
     mkdir -p include-what-you-use/build && cd include-what-you-use/build && \
-    cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-10" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
+    cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-12" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
     cd /tmp && rm -rf include-what-you-use && \
     git clone --single-branch --branch 1.4.1 https://github.com/VcDevel/Vc.git && \
     cd Vc && git submodule update --init && \
