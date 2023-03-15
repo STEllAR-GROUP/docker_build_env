@@ -121,6 +121,41 @@ jobs:
                         docker push ${IMAGE_NAME_LATEST}
                         docker push ${IMAGE_NAME_VERSIONED}
                     fi
+    # Build docker image for chplx github actions
+    build_chplx_image:
+        docker:
+            - image: docker:17.05.0-ce-git
+        environment:
+            IMAGE_FOLDER_NAME: chplx_build_env
+            IMAGE_NAME_LATEST: stellargroup/chplx_build_env:latest
+            IMAGE_NAME_VERSIONED: stellargroup/chplx_build_env:1
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Building Docker Image
+                command: |
+                    docker build -t ${IMAGE_NAME_LATEST} ${IMAGE_FOLDER_NAME}
+                    docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME_VERSIONED}
+                    docker images
+            - run:
+                name: Testing Docker Image
+                command: |
+                    docker run ${IMAGE_NAME_LATEST} cmake --version
+                    git clone https://github.com/STEllAR-GROUP/hpx.git --depth=1
+                    docker run ${IMAGE_NAME_LATEST} printenv
+                    docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
+                    docker cp /root/project/hpx/./ app:/hpx
+                    docker run --volumes-from app ${IMAGE_NAME_LATEST} mkdir /hpx/build
+                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} cmake .. -DHPX_WITH_MALLOC=jemalloc -G Ninja
+                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
+            - deploy:
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push ${IMAGE_NAME_LATEST}
+                        docker push ${IMAGE_NAME_VERSIONED}
+                    fi
 
 workflows:
     version: 2
@@ -131,3 +166,4 @@ workflows:
                 requires:
                   - build_main_image
             - build_crosscompile_arm_sve_image
+            - build_chplx_image
