@@ -147,7 +147,8 @@ jobs:
                     docker create -v /hpx --name app ${IMAGE_NAME_LATEST} /bin/true
                     docker cp /root/project/hpx/./ app:/hpx
                     docker run --volumes-from app ${IMAGE_NAME_LATEST} mkdir /hpx/build
-                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} cmake .. -DHPX_WITH_MALLOC=jemalloc -G Ninja
+                    docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} \
+                        cmake .. -DHPX_WITH_MALLOC=jemalloc -DHPX_WITH_CXX_STANDARD=20 -DCMAKE_CXX_FLAGS=-stdlib=libc++ -G Ninja
                     docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
             - deploy:
                 command: |

@@ -40,24 +40,31 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
 RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-utils &&                    \
     apt-get install -qq --no-install-recommends -y  \
-                    clang-format-15                 \
-                    clang-tidy-15                   \
+                    clang-15                        \
                     clang-tools-15                  \
-                    clang clangd-15                 \
-                    libc++-15-dev                   \
-                    libc++1-15                      \
-                    libc++abi-15-dev                \
-                    libc++abi1-15                   \
+                    clang-15-doc                    \
+                    libclang-common-15-dev          \
                     libclang-15-dev                 \
                     libclang1-15                    \
+                    clang-format-15                 \
+                    python3-clang-15                \
+                    clangd-15                       \
+                    clang-tidy-15                   \
+                    libc++-15-dev                   \
+                    libc++abi-15-dev                \
+                    libllvm-15-ocaml-dev            \
+                    libllvm15                       \
+                    llvm-15                         \
+                    llvm-15-dev                     \
+                    llvm-15-doc                     \
+                    llvm-15-examples                \
+                    llvm-15-runtime                 \
+                    libc++1-15                      \
+                    libc++abi1-15                   \
                     liblldb-15-dev                  \
                     libomp-15-dev                   \
                     libomp5-15                      \
                     lld-15                          \
-                    lldb-15                         \
-                    llvm-15-dev                     \
-                    llvm-runtime                    \
-                    llvm python3-clang-15           \
                     zip curl                        \
                     jq                              \
                     kmod                            \
