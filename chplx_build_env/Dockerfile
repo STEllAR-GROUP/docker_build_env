@@ -98,7 +98,6 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     rpm                             \
                     pkg-config                      \
                     graphviz                        \
-                    iwyu                            \
                     devscripts                      \
                     zlib1g-dev                      \
                     wget                            \
@@ -115,6 +114,15 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     tar -jxf grcov.tar.bz2 && \
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
+
+COPY docs_requirements.txt docs_requirements.txt
+
+# Creating a python env to eliminate conflicts with system python packages
+ENV PYTHON_VENV=/opt/venv
+RUN python3 -m venv $PYTHON_VENV
+ENV PATH="$PYTHON_VENV/bin:$PATH"
+
+RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt paramiko cmake_format
 
 ENV CC clang-15
 ENV CXX clang++-15

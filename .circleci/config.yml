@@ -128,7 +128,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: chplx_build_env
             IMAGE_NAME_LATEST: stellargroup/chplx_build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/chplx_build_env:1
+            IMAGE_NAME_VERSIONED: stellargroup/chplx_build_env:2
         steps:
             - checkout
             - setup_remote_docker
