@@ -40,6 +40,29 @@ jobs:
                         docker push ${IMAGE_NAME_LATEST}
                         docker push ${IMAGE_NAME_VERSIONED}
                     fi
+    build_minimal_image:
+        docker:
+            - image: docker:17.05.0-ce-git
+        environment:
+            IMAGE_FOLDER_NAME: minimal_env
+            IMAGE_NAME_LATEST: stellargroup/minimal_env:latest
+            IMAGE_NAME_VERSIONED: stellargroup/minimal_env:1
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Building Docker Image
+                command: |
+                    docker build -t ${IMAGE_NAME_LATEST} ${IMAGE_FOLDER_NAME}
+                    docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME_VERSIONED}
+                    docker images
+            - deploy:
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push ${IMAGE_NAME_LATEST}
+                        docker push ${IMAGE_NAME_VERSIONED}
+                    fi
     # Build docker image for hip github action
     build_hip_image:
         requires:
@@ -163,6 +186,7 @@ workflows:
     build_test_deploy:
         jobs:
             - build_main_image
+            - build_minimal_image
             - build_hip_image:
                 requires:
                   - build_main_image
