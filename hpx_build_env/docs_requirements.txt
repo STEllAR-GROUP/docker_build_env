@@ -93,7 +93,7 @@ pyyaml==6.0
     #   -r docs_requirements.txt
     #   pybtex
     #   sphinx-book-theme
-requests==2.27.1
+requests==2.31.0
     # via
     #   -r docs_requirements.txt
     #   sphinx
