@@ -44,6 +44,8 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     libasio-dev                     \
                     libclang-12-dev                 \
                     libhwloc-dev                    \
+                    libltdl-dev                     \
+                    libudev-dev                     \
                     libjemalloc-dev                 \
                     libboost-atomic-dev             \
                     libboost-chrono-dev             \
