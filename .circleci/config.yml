@@ -217,3 +217,4 @@ workflows:
                   - build_main_image
             - build_crosscompile_arm_sve_image
             - build_chplx_image
+            - build_hpxmp_image
