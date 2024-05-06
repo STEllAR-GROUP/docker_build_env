@@ -95,7 +95,7 @@ RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cm
     tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
     rm cmake.tar.gz
 
-RUN RUN pip3 install --upgrade pip3 && pip3 install psutil
+RUN pip3 install psutil
 
 ENV CC clang-15
 ENV CXX clang++-15
