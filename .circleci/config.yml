@@ -135,7 +135,9 @@ jobs:
                         -DCMAKE_CXX_FLAGS=-march=armv8-a+sve \
                         -DBOOST_ROOT=/opt/install/boost/release/boost \
                         -DHWLOC_ROOT=/opt/install/hwloc \
-                        -DHPX_WITH_GENERIC_CONTEXT_COROUTINES=On
+                        -DHPX_WITH_GENERIC_CONTEXT_COROUTINES=On \
+                        -DCMAKE_SYSTEM_NAME=Linux \
+                        -DCMAKE_SYSTEM_PROCESSOR=arm
                     docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
             - deploy:
                 command: |

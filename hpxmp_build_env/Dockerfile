@@ -1,3 +1,4 @@
+# Copyright (c) 2024 Panos Syskakis
 # Copyright (c) 2020 Mikael Simberg
 # Copyright (c) 2015 Martin Stumpf
 # Copyright (c) 2023 Hartmut Kaiser
@@ -15,27 +16,10 @@
 # can be updated and tested in a separate PR without risking breaking open pull
 # request builds.
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install libraries
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
-                    wget gnupg2 curl ca-certificates && \
-    wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
-    apt-key add llvm-snapshot.gpg.key && \
-    apt update && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-15 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-15 main" >> /etc/apt/sources.list && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -qq && apt-get install -y -qq    \
         apt-utils &&                    \
@@ -87,13 +71,9 @@ RUN apt-get update -qq && apt-get install -y -qq    \
         devscripts                      \
         zlib1g-dev                      \
         python3                         \
-        python3-pip
+        python3-pip                     \
+        cmake
 
-# Get cmake files (in separate RUN command to get cached)
-RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cmake.tar.gz && \
-    echo "db0d7d225150dd6e08ce54995e671f9b4801b8e93e22df1eef52339f6bbbecd9  cmake.tar.gz" | sha256sum --check --status && \
-    tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
-    rm cmake.tar.gz
 
 RUN pip3 install psutil
 
