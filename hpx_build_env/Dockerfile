@@ -72,6 +72,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     git                             \
                     xsltproc                        \
                     rpm                             \
+                    sudo                            \
                     pkg-config                      \
                     graphviz                        \
                     iwyu                            \
