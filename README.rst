@@ -6,7 +6,6 @@
 *****
  Docker HPX Build Environment
 *****
-
 |circleci_status|
 
 .. |circleci_status| image:: https://circleci.com/gh/STEllAR-GROUP/docker_build_env/tree/master.svg?style=svg
