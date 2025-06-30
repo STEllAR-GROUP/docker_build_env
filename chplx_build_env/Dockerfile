@@ -21,10 +21,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install libraries
 RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
-                    wget gnupg2 curl ca-certificates && \
+                    apt-utils apt-transport-https   \
+                    software-properties-common      \
+                    wget gnupg2 gpg curl            \
+                    ca-certificates &&              \
     wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
-    apt-key add llvm-snapshot.gpg.key && \
-    apt update && \
+    apt-key add llvm-snapshot.gpg.key &&            \
+    apt update -qq &&                               \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
@@ -37,8 +40,9 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq && apt-get install -y -qq    \
-                    apt-utils &&                    \
+ADD llvm-snapshot.gpg.key.gpg /etc/apt/trusted.gpg.d/
+
+RUN apt-get update -qq &&                           \
     apt-get install -qq --no-install-recommends -y  \
                     clang-20                        \
                     clang-tools-20                  \

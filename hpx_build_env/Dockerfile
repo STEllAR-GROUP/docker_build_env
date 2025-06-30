@@ -65,6 +65,8 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     lld-20                          \
                     libasio-dev                     \
                     libhwloc-dev                    \
+                    libltdl-dev                     \
+                    libudev-dev                     \
                     libjemalloc-dev                 \
                     libboost-atomic-dev             \
                     libboost-chrono-dev             \
@@ -91,6 +93,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     git                             \
                     xsltproc                        \
                     rpm                             \
+                    sudo                            \
                     pkg-config                      \
                     graphviz                        \
                     iwyu                            \
