@@ -19,7 +19,14 @@ FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install libraries
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends curl gnupg && \
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+                    apt-utils apt-transport-https   \
+                    software-properties-common      \
+                    wget gnupg2 gpg curl            \
+                    ca-certificates &&              \
+    wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
+    apt-key add llvm-snapshot.gpg.key &&            \
+    apt update -qq &&                               \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
@@ -48,6 +55,7 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     clang-format-20                 \
                     clangd-20                       \
                     clang-tidy-20                   \
+                    libc++-20                       \
                     libc++-20-dev                   \
                     libc++abi-20-dev                \
                     libllvm-20-ocaml-dev            \
@@ -57,8 +65,6 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     llvm-20-doc                     \
                     llvm-20-examples                \
                     llvm-20-runtime                 \
-                    libc++1-20                      \
-                    libc++abi1-20                   \
                     liblldb-20-dev                  \
                     libomp-20-dev                   \
                     libomp5-20                      \

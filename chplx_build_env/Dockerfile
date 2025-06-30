@@ -40,8 +40,6 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
-ADD llvm-snapshot.gpg.key.gpg /etc/apt/trusted.gpg.d/
-
 RUN apt-get update -qq &&                           \
     apt-get install -qq --no-install-recommends -y  \
                     clang-20                        \
@@ -57,18 +55,16 @@ RUN apt-get update -qq &&                           \
                     libc++-20-dev                   \
                     libc++abi-20-dev                \
                     libllvm-20-ocaml-dev            \
-                    libllvm15                       \
+                    libllvm-20                      \
                     llvm-20                         \
                     llvm-20-dev                     \
                     llvm-20-doc                     \
                     llvm-20-examples                \
                     llvm-20-runtime                 \
-                    libc++1-20                      \
-                    libc++abi1-20                   \
                     liblldb-20-dev                  \
+                    lld-20                          \
                     libomp-20-dev                   \
                     libomp5-20                      \
-                    lld-20                          \
                     zip curl                        \
                     jq                              \
                     kmod                            \
