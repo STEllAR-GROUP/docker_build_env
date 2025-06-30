@@ -55,7 +55,6 @@ RUN apt-get update -qq &&                           \
                     libc++-20-dev                   \
                     libc++abi-20-dev                \
                     libllvm-20-ocaml-dev            \
-                    libllvm-20                      \
                     llvm-20                         \
                     llvm-20-dev                     \
                     llvm-20-doc                     \
