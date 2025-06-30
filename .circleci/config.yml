@@ -135,7 +135,9 @@ jobs:
                         -DCMAKE_CXX_FLAGS=-march=armv8-a+sve \
                         -DBOOST_ROOT=/opt/install/boost/release/boost \
                         -DHWLOC_ROOT=/opt/install/hwloc \
-                        -DHPX_WITH_GENERIC_CONTEXT_COROUTINES=On
+                        -DHPX_WITH_GENERIC_CONTEXT_COROUTINES=On \
+                        -DCMAKE_SYSTEM_NAME=Linux \
+                        -DCMAKE_SYSTEM_PROCESSOR=arm
                     docker run --volumes-from app -w /hpx/build ${IMAGE_NAME_LATEST} ninja core
             - deploy:
                 command: |
@@ -180,6 +182,31 @@ jobs:
                         docker push ${IMAGE_NAME_LATEST}
                         docker push ${IMAGE_NAME_VERSIONED}
                     fi
+    
+    # Build docker image for building hpxmp 
+    build_hpxmp_image:
+        docker:
+            - image: docker:17.05.0-ce-git
+        environment:
+            IMAGE_FOLDER_NAME: hpxmp_build_env
+            IMAGE_NAME_LATEST: stellargroup/hpxmp_build_env:latest
+            IMAGE_NAME_VERSIONED: stellargroup/hpxmp_build_env:1
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Building Docker Image
+                command: |
+                    docker build -t ${IMAGE_NAME_LATEST} ${IMAGE_FOLDER_NAME}
+                    docker tag ${IMAGE_NAME_LATEST} ${IMAGE_NAME_VERSIONED}
+                    docker images
+            - deploy:
+                command: |
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        docker login -u $DOCKER_USER -p $DOCKER_PASS
+                        docker push ${IMAGE_NAME_LATEST}
+                        docker push ${IMAGE_NAME_VERSIONED}
+                    fi
 
 workflows:
     version: 2
@@ -192,3 +219,4 @@ workflows:
                   - build_main_image
             - build_crosscompile_arm_sve_image
             - build_chplx_image
+            - build_hpxmp_image
