@@ -12,7 +12,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: hpx_build_env
             IMAGE_NAME_LATEST: stellargroup/build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/build_env:15
+            IMAGE_NAME_VERSIONED: stellargroup/build_env:17
         steps:
             - checkout
             - setup_remote_docker
@@ -46,7 +46,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: minimal_env
             IMAGE_NAME_LATEST: stellargroup/minimal_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/minimal_env:1
+            IMAGE_NAME_VERSIONED: stellargroup/minimal_env:2
         steps:
             - checkout
             - setup_remote_docker
@@ -151,7 +151,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: chplx_build_env
             IMAGE_NAME_LATEST: stellargroup/chplx_build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/chplx_build_env:2
+            IMAGE_NAME_VERSIONED: stellargroup/chplx_build_env:3
         steps:
             - checkout
             - setup_remote_docker

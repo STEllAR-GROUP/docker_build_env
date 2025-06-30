@@ -33,38 +33,38 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-15 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-15 main" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-utils &&                    \
     apt-get install -qq --no-install-recommends -y  \
-                    clang-15                        \
-                    clang-tools-15                  \
-                    clang-15-doc                    \
-                    libclang-common-15-dev          \
-                    libclang-15-dev                 \
-                    libclang1-15                    \
-                    clang-format-15                 \
-                    python3-clang-15                \
-                    clangd-15                       \
-                    clang-tidy-15                   \
-                    libc++-15-dev                   \
-                    libc++abi-15-dev                \
-                    libllvm-15-ocaml-dev            \
+                    clang-20                        \
+                    clang-tools-20                  \
+                    clang-20-doc                    \
+                    libclang-common-20-dev          \
+                    libclang-20-dev                 \
+                    libclang1-20                    \
+                    clang-format-20                 \
+                    python3-clang-20                \
+                    clangd-20                       \
+                    clang-tidy-20                   \
+                    libc++-20-dev                   \
+                    libc++abi-20-dev                \
+                    libllvm-20-ocaml-dev            \
                     libllvm15                       \
-                    llvm-15                         \
-                    llvm-15-dev                     \
-                    llvm-15-doc                     \
-                    llvm-15-examples                \
-                    llvm-15-runtime                 \
-                    libc++1-15                      \
-                    libc++abi1-15                   \
-                    liblldb-15-dev                  \
-                    libomp-15-dev                   \
-                    libomp5-15                      \
-                    lld-15                          \
+                    llvm-20                         \
+                    llvm-20-dev                     \
+                    llvm-20-doc                     \
+                    llvm-20-examples                \
+                    llvm-20-runtime                 \
+                    libc++1-20                      \
+                    libc++abi1-20                   \
+                    liblldb-20-dev                  \
+                    libomp-20-dev                   \
+                    libomp5-20                      \
+                    lld-20                          \
                     zip curl                        \
                     jq                              \
                     kmod                            \
@@ -124,7 +124,7 @@ ENV PATH="$PYTHON_VENV/bin:$PATH"
 
 RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt paramiko cmake_format
 
-ENV CC clang-15
-ENV CXX clang++-15
+ENV CC clang-20
+ENV CXX clang++-20
 
 # IMPORTANT: Did you read the note at the top of the file?

@@ -26,6 +26,10 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends curl gn
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -qq && apt-get install -y -qq    \
@@ -33,16 +37,33 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-get install -qq             \
                     --no-install-recommends -y      \
                     wget zip curl ca-certificates   \
-                    clang-12                        \
-                    clang-format-12                 \
-                    clang-tidy-12                   \
                     jq                              \
                     kmod                            \
-                    llvm                            \
-                    lld                             \
-                    llvm-12-dev                     \
+                    clang-20                        \
+                    clang-tools-20                  \
+                    clang-20-doc                    \
+                    libclang-common-20-dev          \
+                    libclang-20-dev                 \
+                    libclang1-20                    \
+                    clang-format-20                 \
+                    clangd-20                       \
+                    clang-tidy-20                   \
+                    libc++-20-dev                   \
+                    libc++abi-20-dev                \
+                    libllvm-20-ocaml-dev            \
+                    libllvm15                       \
+                    llvm-20                         \
+                    llvm-20-dev                     \
+                    llvm-20-doc                     \
+                    llvm-20-examples                \
+                    llvm-20-runtime                 \
+                    libc++1-20                      \
+                    libc++abi1-20                   \
+                    liblldb-20-dev                  \
+                    libomp-20-dev                   \
+                    libomp5-20                      \
+                    lld-20                          \
                     libasio-dev                     \
-                    libclang-12-dev                 \
                     libhwloc-dev                    \
                     libjemalloc-dev                 \
                     libboost-atomic-dev             \
@@ -77,7 +98,6 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     zlib1g-dev                      \
                     wget                            \
                     python3.8-venv
-
 
 # Get cmake files (in separate RUN command to get cached)
 RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cmake.tar.gz && \
@@ -116,7 +136,7 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
     cd /tmp && rm -rf Vc && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CC clang-12
-ENV CXX clang++-12
+ENV CC clang-20
+ENV CXX clang++-20
 
 # IMPORTANT: Did you read the note at the top of the file?
