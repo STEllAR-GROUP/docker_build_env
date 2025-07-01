@@ -19,14 +19,14 @@ FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install libraries
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
                     apt-utils apt-transport-https   \
                     software-properties-common      \
-                    wget gnupg2 gpg curl            \
+                    wget gnupg2 gpg curl zip        \
                     ca-certificates &&              \
     wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
     apt-key add llvm-snapshot.gpg.key &&            \
-    apt update -qq &&                               \
+    apt update &&                                   \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
@@ -39,13 +39,10 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq && apt-get install -y -qq    \
-                    apt-utils &&                    \
-                    apt-get install -qq             \
-                    --no-install-recommends -y      \
-                    wget zip curl ca-certificates   \
+RUN apt-get update && apt-get install -y            \
                     jq                              \
                     kmod                            \
+                    binutils                        \
                     clang-20                        \
                     clang-tools-20                  \
                     clang-20-doc                    \
@@ -82,7 +79,6 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
-                    libgoogle-perftools-dev         \
                     mpi-default-dev                 \
                     vc-dev                          \
                     doxygen                         \
@@ -107,9 +103,12 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     wget                            \
                     python3.8-venv
 
+#                    libunwind-dev
+#                    libgoogle-perftools-dev
+
 # Get cmake files (in separate RUN command to get cached)
-RUN wget -q https://cmake.org/files/v3.19/cmake-3.19.8-Linux-x86_64.tar.gz -O cmake.tar.gz && \
-    echo "db0d7d225150dd6e08ce54995e671f9b4801b8e93e22df1eef52339f6bbbecd9  cmake.tar.gz" | sha256sum --check --status && \
+RUN wget -q https://cmake.org/files/v3.31/cmake-3.31.8-linux-x86_64.tar.gz -O cmake.tar.gz && \
+    echo "630615d8e98ac33eba7fbe472626dff5c899c85af3c024585ae109166a6909d0  cmake.tar.gz" | sha256sum --check --status && \
     tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
     rm cmake.tar.gz
 
@@ -119,6 +118,8 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
+ENV CC=clang-20
+ENV CXX=clang++-20
 
 COPY docs_requirements.txt docs_requirements.txt
 
@@ -128,23 +129,18 @@ ENV PYTHON_VENV=/opt/venv
 RUN python3 -m venv $PYTHON_VENV
 ENV PATH="$PYTHON_VENV/bin:$PATH"
 
+#    rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && 
+
 RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_format && \
-    rm /usr/bin/ld && ln -s /usr/bin/ld.lld /usr/bin/ld && cd /tmp && \
+    cd /tmp && \
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
     cd /tmp && rm -rf /tmp/cpp-dependencies && \
-    git clone --single-branch --branch clang_12 https://github.com/include-what-you-use/include-what-you-use.git && \
-    mkdir -p include-what-you-use/build && cd include-what-you-use/build && \
-    cmake -DCMAKE_PREFIX_PATH="/usr/lib/llvm-12" -DCMAKE_INSTALL_PREFIX="/usr" .. && make -j install && \
-    cd /tmp && rm -rf include-what-you-use && \
     git clone --single-branch --branch 1.4.1 https://github.com/VcDevel/Vc.git && \
     cd Vc && git submodule update --init && \
     mkdir -p build && cd build && \
     cmake -DBUILD_TESTING=OFF .. && make -j install && \
     cd /tmp && rm -rf Vc && \
     rm -rf /var/lib/apt/lists/*
-
-ENV CC clang-20
-ENV CXX clang++-20
 
 # IMPORTANT: Did you read the note at the top of the file?

@@ -40,6 +40,7 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
 RUN apt-get update -qq && apt-get install -y -qq    \
                     apt-utils &&                    \
     apt-get install -qq --no-install-recommends -y  \
+                    binutils                        \
                     clang-20                        \
                     clang-tools-20                  \
                     clang-20-doc                    \
