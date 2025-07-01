@@ -107,7 +107,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: hpx_crosscompile_arm_sve_build_env
             IMAGE_NAME_LATEST: stellargroup/crosscompile_arm_sve_build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/crosscompile_arm_sve_build_env:1
+            IMAGE_NAME_VERSIONED: stellargroup/crosscompile_arm_sve_build_env:2
         steps:
             - checkout
             - setup_remote_docker

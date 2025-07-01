@@ -1,6 +1,6 @@
 # Copyright (c) 2020 Mikael Simberg
 # Copyright (c) 2015 Martin Stumpf
-# Copyright (c) 2023 Hartmut Kaiser
+# Copyright (c) 2023-2025 Hartmut Kaiser
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -53,14 +53,11 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     libc++-20-dev                   \
                     libc++abi-20-dev                \
                     libllvm-20-ocaml-dev            \
-                    libllvm15                       \
                     llvm-20                         \
                     llvm-20-dev                     \
                     llvm-20-doc                     \
                     llvm-20-examples                \
                     llvm-20-runtime                 \
-                    libc++1-20                      \
-                    libc++abi1-20                   \
                     liblldb-20-dev                  \
                     libomp-20-dev                   \
                     libomp5-20                      \
@@ -93,7 +90,7 @@ RUN wget -q https://cmake.org/files/v3.26/cmake-3.26.0-linux-x86_64.tar.gz -O cm
     tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
     rm cmake.tar.gz
 
-ENV CC clang-20
-ENV CXX clang++-20
+ENV CC=clang-20
+ENV CXX=clang++-20
 
 # IMPORTANT: Did you read the note at the top of the file?

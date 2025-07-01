@@ -5,10 +5,10 @@
 
 FROM ubuntu:jammy
 
-ENV LD_LIBRARY_PATH /usr/aarch64-linux-gnu/lib64:/usr/aarch64-linux-gnu/lib:/usr/arm-linux-gnueabihf/lib:/usr/powerpc64le-linux-gnu/lib/
-ENV DEBIAN_FRONTEND noninteractive
-ENV BOOST_URL       https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz
-ENV HWLOC_URL       https://download.open-mpi.org/release/hwloc/v2.7/hwloc-2.7.1.tar.gz
+ENV LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib64:/usr/aarch64-linux-gnu/lib:/usr/arm-linux-gnueabihf/lib:/usr/powerpc64le-linux-gnu/lib/
+ENV DEBIAN_FRONTEND=noninteractive
+ENV BOOST_URL=https://psychz.dl.sourceforge.net/project/boost/boost/1.80.0/boost_1_80_0.tar.gz?viasf=1
+ENV HWLOC_URL=https://download.open-mpi.org/release/hwloc/v2.7/hwloc-2.7.1.tar.gz
 
 RUN   apt-get update -y && apt-get install -y --no-install-recommends gpg-agent debian-keyring              \
       software-properties-common apt-utils                                                            &&    \
@@ -45,11 +45,11 @@ RUN   ln -sf /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1     /lib/ld-linux-
       ln -sf /usr/powerpc64le-linux-gnu/lib64/ld64.so.2           /lib64/ld64.so.2                    &&    \
       ln -sf /usr/powerpc64-linux-gnu/lib64/ld64.so.1             /lib64/ld64.so.1
 
-ENV CC aarch64-linux-gnu-gcc-11
-ENV CXX aarch64-linux-gnu-g++-11
+ENV CC=aarch64-linux-gnu-gcc-11
+ENV CXX=aarch64-linux-gnu-g++-11
 
 RUN   mkdir /opt/download /opt/build /opt/install 
-RUN   cd /opt/download && wget ${BOOST_URL} && wget ${HWLOC_URL}
+RUN   cd /opt/download && wget ${BOOST_URL} -O boost_1_80_0.tar.gz && wget ${HWLOC_URL}
 
 RUN   mkdir /opt/install/boost /opt/install/boost/debug mkdir /opt/install/boost/release
 RUN   cd /opt/build && tar -xf /opt/download/boost_1_80_0.tar.gz && \
