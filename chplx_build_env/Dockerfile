@@ -21,7 +21,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install libraries
 RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
-                    wget gnupg2 curl ca-certificates && \
+                    apt-utils wget gnupg2 curl ca-certificates && \
     wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
     apt-key add llvm-snapshot.gpg.key && \
     apt update && \
@@ -37,9 +37,8 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-15 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq && apt-get install -y -qq    \
-                    apt-utils &&                    \
-    apt-get install -qq --no-install-recommends -y  \
+RUN apt-get update &&                               \
+    apt-get install --no-install-recommends -y      \
                     clang-15                        \
                     clang-tools-15                  \
                     clang-15-doc                    \
@@ -124,7 +123,7 @@ ENV PATH="$PYTHON_VENV/bin:$PATH"
 
 RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt paramiko cmake_format
 
-ENV CC clang-15
-ENV CXX clang++-15
+ENV CC=clang-15
+ENV CXX=clang++-15
 
 # IMPORTANT: Did you read the note at the top of the file?
