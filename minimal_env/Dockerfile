@@ -80,7 +80,6 @@ RUN apt-get update -qq && apt-get install -y -qq    \
                     libboost-regex-dev              \
                     libboost-system-dev             \
                     libboost-thread-dev             \
-                    libgoogle-perftools-dev         \
                     vc-dev                          \
                     ninja-build                     \
                     git                             \
