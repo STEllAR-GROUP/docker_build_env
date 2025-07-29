@@ -144,4 +144,8 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
     cd /tmp && rm -rf Vc && \
     rm -rf /var/lib/apt/lists/*
 
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+
+RUN apt-get update && apt-get install -y gcc-11 g++-11                   
+
 # IMPORTANT: Did you read the note at the top of the file?
