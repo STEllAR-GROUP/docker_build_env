@@ -60,4 +60,5 @@ RUN apt-get update && apt-get install -y            \
 
 ENV ROCM_PATH=/opt/rocm
 ENV PATH="${PATH}:${ROCM_PATH}/bin:${ROCM_PATH}/rocprofiler/bin:${ROCM_PATH}/opencl/bin"
+ENV CPLUS_INCLUDE_PATH="${ROCM_PATH}/include:${ROCM_PATH}/include/hipblas"
 ENV CXX=hipcc
