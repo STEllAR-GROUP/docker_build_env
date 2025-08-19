@@ -90,7 +90,6 @@ RUN apt-get update && apt-get install -y            \
                     latexmk                         \
                     tex-gyre                        \
                     libjson-perl                    \
-                    ninja-build                     \
                     codespell                       \
                     git                             \
                     xsltproc                        \
@@ -142,7 +141,11 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
     mkdir -p build && cd build && \
     cmake -DBUILD_TESTING=OFF .. && make -j install && \
     cd /tmp && rm -rf Vc && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/ninja-build/ninja.git && \
+    cd ninja && git checkout -b v1.13.1 && ./configure.py --bootstrap && cp ninja /usr/local/bin/ && \
+    cd /tmp && rm -rf ninja/
+
 
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 
