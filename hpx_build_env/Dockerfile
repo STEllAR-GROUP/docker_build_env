@@ -36,36 +36,36 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-20 main" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y            \
                     jq                              \
                     kmod                            \
                     binutils                        \
-                    clang-20                        \
-                    clang-tools-20                  \
-                    clang-20-doc                    \
-                    libclang-common-20-dev          \
-                    libclang-20-dev                 \
-                    libclang1-20                    \
-                    clang-format-20                 \
-                    clangd-20                       \
-                    clang-tidy-20                   \
-                    libc++-20                       \
-                    libc++-20-dev                   \
-                    libc++abi-20-dev                \
-                    libllvm-20-ocaml-dev            \
-                    llvm-20                         \
-                    llvm-20-dev                     \
-                    llvm-20-doc                     \
-                    llvm-20-examples                \
-                    llvm-20-runtime                 \
-                    liblldb-20-dev                  \
-                    libomp-20-dev                   \
-                    libomp5-20                      \
-                    lld-20                          \
+                    clang-21                        \
+                    clang-tools-21                  \
+                    clang-21-doc                    \
+                    libclang-common-21-dev          \
+                    libclang-21-dev                 \
+                    libclang1-21                    \
+                    clang-format-21                 \
+                    clangd-21                       \
+                    clang-tidy-21                   \
+                    libc++-21                       \
+                    libc++-21-dev                   \
+                    libc++abi-21-dev                \
+                    libllvm-21-ocaml-dev            \
+                    llvm-21                         \
+                    llvm-21-dev                     \
+                    llvm-21-doc                     \
+                    llvm-21-examples                \
+                    llvm-21-runtime                 \
+                    liblldb-21-dev                  \
+                    libomp-21-dev                   \
+                    libomp5-21                      \
+                    lld-21                          \
                     libasio-dev                     \
                     libhwloc-dev                    \
                     libltdl-dev                     \
@@ -118,8 +118,8 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
-ENV CC=clang-20
-ENV CXX=clang++-20
+ENV CC=clang-21
+ENV CXX=clang++-21
 
 COPY docs_requirements.txt docs_requirements.txt
 
