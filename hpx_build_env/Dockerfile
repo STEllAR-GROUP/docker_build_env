@@ -1,6 +1,6 @@
 # Copyright (c) 2020 Mikael Simberg
 # Copyright (c) 2015 Martin Stumpf
-# Copyright (c) 2025 Hartmut Kaiser
+# Copyright (c) 2025-2026 Hartmut Kaiser
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -36,36 +36,36 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
     echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
     echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-22 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-22 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y            \
                     jq                              \
                     kmod                            \
                     binutils                        \
-                    clang-21                        \
-                    clang-tools-21                  \
-                    clang-21-doc                    \
-                    libclang-common-21-dev          \
-                    libclang-21-dev                 \
-                    libclang1-21                    \
-                    clang-format-21                 \
-                    clangd-21                       \
-                    clang-tidy-21                   \
-                    libc++-21                       \
-                    libc++-21-dev                   \
-                    libc++abi-21-dev                \
-                    libllvm-21-ocaml-dev            \
-                    llvm-21                         \
-                    llvm-21-dev                     \
-                    llvm-21-doc                     \
-                    llvm-21-examples                \
-                    llvm-21-runtime                 \
-                    liblldb-21-dev                  \
-                    libomp-21-dev                   \
-                    libomp5-21                      \
-                    lld-21                          \
+                    clang-22                        \
+                    clang-tools-22                  \
+                    clang-22-doc                    \
+                    libclang-common-22-dev          \
+                    libclang-22-dev                 \
+                    libclang1-22                    \
+                    clang-format-22                 \
+                    clangd-22                       \
+                    clang-tidy-22                   \
+                    libc++-22                       \
+                    libc++-22-dev                   \
+                    libc++abi-22-dev                \
+                    libllvm-22-ocaml-dev            \
+                    llvm-22                         \
+                    llvm-22-dev                     \
+                    llvm-22-doc                     \
+                    llvm-22-examples                \
+                    llvm-22-runtime                 \
+                    liblldb-22-dev                  \
+                    libomp-22-dev                   \
+                    libomp5-22                      \
+                    lld-22                          \
                     libasio-dev                     \
                     libhwloc-dev                    \
                     libltdl-dev                     \
@@ -107,8 +107,8 @@ RUN apt-get update && apt-get install -y            \
 #                    libgoogle-perftools-dev
 
 # Get cmake files (in separate RUN command to get cached)
-RUN wget -q https://cmake.org/files/v3.31/cmake-3.31.8-linux-x86_64.tar.gz -O cmake.tar.gz && \
-    echo "630615d8e98ac33eba7fbe472626dff5c899c85af3c024585ae109166a6909d0  cmake.tar.gz" | sha256sum --check --status && \
+RUN wget -q https://cmake.org/files/v4.3/cmake-4.3.2-linux-x86_64.tar.gz -O cmake.tar.gz && \
+    echo "791ae3604841ca03cb3889a3ad89165346e4b180ae3448efd4b0caa9ef46d245  cmake.tar.gz" | sha256sum --check --status && \
     tar --strip-components=1 -C /usr/local -xf cmake.tar.gz && \
     rm cmake.tar.gz
 
@@ -118,8 +118,8 @@ RUN wget -q https://github.com/mozilla/grcov/releases/download/v0.7.1/grcov-linu
     mv grcov /usr/bin && \
     rm grcov.tar.bz2
 
-ENV CC=clang-21
-ENV CXX=clang++-21
+ENV CC=clang-22
+ENV CXX=clang++-22
 
 COPY docs_requirements.txt docs_requirements.txt
 
@@ -136,11 +136,6 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
     git clone https://github.com/tomtom-international/cpp-dependencies.git && \
     cd cpp-dependencies && cmake . && make -j install && \
     cd /tmp && rm -rf /tmp/cpp-dependencies && \
-    git clone --single-branch --branch 1.4.1 https://github.com/VcDevel/Vc.git && \
-    cd Vc && git submodule update --init && \
-    mkdir -p build && cd build && \
-    cmake -DBUILD_TESTING=OFF .. && make -j install && \
-    cd /tmp && rm -rf Vc && \
     rm -rf /var/lib/apt/lists/* && \
     git clone https://github.com/ninja-build/ninja.git && \
     cd ninja && git checkout -b v1.13.1 && ./configure.py --bootstrap && cp ninja /usr/local/bin/ && \
