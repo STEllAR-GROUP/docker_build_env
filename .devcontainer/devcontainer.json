@@ -2,7 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/ubuntu
 {
 	"name": "HPX Build Env",
-	"image": "stellargroup/build_env:18",
+	"image": "stellargroup/build_env:23",
 	"runArgs": [
 		"--rm"
 	],

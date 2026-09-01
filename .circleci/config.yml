@@ -12,7 +12,7 @@ jobs:
         environment:
             IMAGE_FOLDER_NAME: hpx_build_env
             IMAGE_NAME_LATEST: stellargroup/build_env:latest
-            IMAGE_NAME_VERSIONED: stellargroup/build_env:22
+            IMAGE_NAME_VERSIONED: stellargroup/build_env:23
         steps:
             - checkout
             - setup_remote_docker

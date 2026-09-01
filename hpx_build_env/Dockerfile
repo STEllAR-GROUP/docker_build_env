@@ -15,7 +15,7 @@
 # can be updated and tested in a separate PR without risking breaking open pull
 # request builds.
 
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -28,16 +28,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget https://apt.llvm.org/llvm-snapshot.gpg.key --no-check-certificate && \
     apt-key add llvm-snapshot.gpg.key &&            \
     apt update &&                                   \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates universe" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal multiverse" >> /etc/apt/sources.list && \
-    echo "deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main" >> /etc/apt/sources.list && \
-    echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-22 main" >> /etc/apt/sources.list && \
-    echo "deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-22 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy-updates universe" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy multiverse" >> /etc/apt/sources.list && \
+    echo "deb-src http://archive.ubuntu.com/ubuntu jammy-updates multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy main" >> /etc/apt/sources.list && \
+    echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-22 main" >> /etc/apt/sources.list && \
+    echo "deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy-22 main" >> /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y            \
@@ -101,7 +101,7 @@ RUN apt-get update && apt-get install -y            \
                     devscripts                      \
                     zlib1g-dev                      \
                     wget                            \
-                    python3.8-venv
+                    python3.10-venv
 
 #                    libunwind-dev
 #                    libgoogle-perftools-dev
@@ -144,6 +144,6 @@ RUN pip3 install --upgrade pip && pip3 install -r docs_requirements.txt cmake_fo
 
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 
-RUN apt-get update && apt-get install -y gcc-11 g++-11                   
+RUN apt-get update && apt-get install -y gcc-12 g++-12                   
 
 # IMPORTANT: Did you read the note at the top of the file?
