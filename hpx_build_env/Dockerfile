@@ -64,7 +64,7 @@ RUN apt-get update && apt-get install -y            \
                     llvm-22-runtime                 \
                     liblldb-22-dev                  \
                     libomp-22-dev                   \
-                    libomp5-22                      \
+                    libomp5                         \
                     lld-22                          \
                     libasio-dev                     \
                     libhwloc-dev                    \
