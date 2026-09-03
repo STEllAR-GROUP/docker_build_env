@@ -4,104 +4,63 @@
 #
 #    pip-compile docs_requirements.txt
 #
-alabaster==1.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+accessible-pygments==0.0.5
+    # via pydata-sphinx-theme
+alabaster==0.7.16
+    # via sphinx
 babel==2.16.0
     # via
-    #   -r docs_requirements.txt
+    #   pydata-sphinx-theme
     #   sphinx
 beautifulsoup4==4.12.3
-    # via
-    #   -r docs_requirements.txt
-    #   pydata-sphinx-theme
+    # via pydata-sphinx-theme
 breathe==4.36.0
     # via -r docs_requirements.txt
-certifi>=2024.7.4
-    # via
-    #   -r docs_requirements.txt
-    #   requests
+certifi==2026.7.22
+    # via requests
 charset-normalizer==3.3.2
-    # via
-    #   -r docs_requirements.txt
-    #   requests
+    # via requests
 docutils==0.21.2
     # via
-    #   -r docs_requirements.txt
-    #   breathe
     #   pybtex-docutils
     #   pydata-sphinx-theme
     #   sphinx
     #   sphinxcontrib-bibtex
 idna==3.7
-    # via
-    #   -r docs_requirements.txt
-    #   requests
+    # via requests
 imagesize==1.4.1
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 jinja2==3.1.4
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 latexcodec==3.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   pybtex
+    # via pybtex
 markupsafe==2.1.5
-    # via
-    #   -r docs_requirements.txt
-    #   jinja2
+    # via jinja2
 packaging==24.1
     # via
-    #   -r docs_requirements.txt
     #   pydata-sphinx-theme
     #   sphinx
-pybtex==0.24.0
+pybtex==0.26.1
     # via
-    #   -r docs_requirements.txt
     #   pybtex-docutils
     #   sphinxcontrib-bibtex
 pybtex-docutils==1.0.3
-    # via
-    #   -r docs_requirements.txt
-    #   sphinxcontrib-bibtex
+    # via sphinxcontrib-bibtex
 pydata-sphinx-theme==0.15.4
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx-book-theme
+    # via sphinx-book-theme
 pygments==2.18.0
     # via
-    #   -r docs_requirements.txt
+    #   accessible-pygments
+    #   pydata-sphinx-theme
     #   sphinx
-pyparsing==3.1.2
-    # via
-    #   -r docs_requirements.txt
-    #   packaging
 pyyaml==6.0.2
-    # via
-    #   -r docs_requirements.txt
-    #   pybtex
-    #   sphinx-book-theme
+    # via pybtex
 requests==2.32.3
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
-six==1.16.0
-    # via
-    #   -r docs_requirements.txt
-    #   latexcodec
-    #   pybtex
+    # via sphinx
 snowballstemmer==2.2.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 soupsieve==2.5
-    # via
-    #   -r docs_requirements.txt
-    #   beautifulsoup4
+    # via beautifulsoup4
 sphinx==7.4.7
     # via
     #   -r docs_requirements.txt
@@ -115,32 +74,22 @@ sphinx-book-theme==1.1.4
 sphinx-copybutton==0.5.2
     # via -r docs_requirements.txt
 sphinxcontrib-applehelp==2.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 sphinxcontrib-bibtex==2.6.5
     # via -r docs_requirements.txt
 sphinxcontrib-devhelp==2.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 sphinxcontrib-htmlhelp==2.1.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 sphinxcontrib-jsmath==1.0.1
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 sphinxcontrib-qthelp==2.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
-    # via
-    #   -r docs_requirements.txt
-    #   sphinx
+    # via sphinx
+tomli==2.4.1
+    # via sphinx
+typing-extensions==4.16.0
+    # via pydata-sphinx-theme
 urllib3==2.2.2
-    # via
-    #   -r docs_requirements.txt
-    #   requests
+    # via requests
